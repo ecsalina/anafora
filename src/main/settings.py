@@ -22,11 +22,14 @@ MANAGERS = ADMINS
 #}
 DATABASES = {'default':{}}
 
+# DEBUG
+ALLOWED_HOSTS = ["172.104.17.152"]
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Denver'
+TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -58,13 +61,13 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-# STATIC_ROOT = ''
+STATIC_ROOT = '/home/anafora/anafora-1.0.0/src/main/static'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-#STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
-#ROOT_URL = ''
+ROOT_URL = '/anafora'
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
@@ -82,7 +85,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = ''
+SECRET_KEY = 'changeme'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -114,7 +117,7 @@ ROOT_URLCONF = 'web.urls'
 WSGI_APPLICATION = 'web.wsgi.application'
 
 TEMPLATE_DIRS = (
-    ""
+    "/home/anafora/anafora-1.0.0/src/Templates",
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -170,10 +173,10 @@ LOGGING = {
 TEST_RUNNER = 'testing.DatabaselessTestRunner'
 
 # Assign the anafora project file directory path
-ANAFORA_PROJECT_FILE_ROOT = ""
+ANAFORA_PROJECT_FILE_ROOT = "/home/anafora/options_project_root"
 
 # Assign the Digest auth group file location
-GROUP_FILE = ''
+GROUP_FILE = '/home/anafora/anafora-1.0.0/anafora.authgroup'
 
 # Assign the group name for the admin
 ADMIN_GROUPNAME = 'anaforaadmin'
