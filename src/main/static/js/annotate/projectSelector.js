@@ -202,6 +202,7 @@ ProjectSelector.prototype.selectCorpus = function() {
 	this.fixPosition();
 }
 
+
 ProjectSelector.prototype.selectTask = function() {
 	if(this.schema == undefined) {
 		throw "Select Schema First";
@@ -210,13 +211,13 @@ ProjectSelector.prototype.selectTask = function() {
 		throw "Select Mode First";
 	}
 	else {
-		var taskList = this.getDir(this.selected.project, this.selected.corpus, this.schema + ((this.mode === false || this.mode === undefined)?"":"."+this.mode) , this.adjudication, this.view);
+		var taskList = this.getDir(this.selected.project, this.selected.corpus, this.schema + ((this.mode === false || this.mode === undefined)?"":"."+this.mode) , this.adjudication, this.view, this.crossDoc);
 		if(this.view)
 			this.updateSelectMenu("Select Task", taskList, ProjectSelector.clickTaskWithView, ProjectSelector.backToCorpus);
 		else
 			this.updateSelectMenu("Select Task", taskList, ProjectSelector.clickTask, ProjectSelector.backToCorpus);
 		// this.popup();
-	}
+ 	}
 
 	this.fixPosition();
 }
@@ -291,6 +292,31 @@ ProjectSelector.clickTaskWithView = function(_self, target ) {
 	$(target).addClass("selected");	
 	_self.selectAnnotator();
 	_self.popup();
+}
+
+ProjectSelector.prototype.clickNextTask = function(_self) {
+	/** Collects the list of all documents ("tasks") sorts them alphabetically,
+	 *  finds the current documents in the list, selects the next document,
+	 *  and opens the next document as a new project.
+	 */
+	var taskList = _self.getDir(_self.selected.project, _self.selected.corpus, _self.schema + ((_self.mode === false || _self.mode === undefined)?"":"."+_self.mode) , _self.adjudication, _self.view);
+	taskListArray = taskList.n.concat(taskList.i, taskList.c).sort();
+	currentTaskIndex = taskListArray.indexOf(_self.selected.task);
+	nextTask = taskListArray[++currentTaskIndex];
+	_self.selected.task = nextTask;
+	_self.openNewProject();
+}
+
+ProjectSelector.prototype.clickPrevTask = function(_self) {
+	/** Same as clickNext, but retrieves the previous document.
+	 */
+	console.log(_self.task) //DEBUG
+	var taskList = _self.getDir(_self.selected.project, _self.selected.corpus, _self.schema + ((_self.mode === false || _self.mode === undefined)?"":"."+_self.mode) , _self.adjudication, _self.view);
+	taskListArray = taskList.n.concat(taskList.i, taskList.c).sort();
+	currentTaskIndex = taskListArray.indexOf(_self.selected.task);
+	prevTask = taskListArray[--currentTaskIndex];
+	_self.selected.task = prevTask;
+	_self.openNewProject();
 }
 
 ProjectSelector.clickAnnotator = function(_self, target) {

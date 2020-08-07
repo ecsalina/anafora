@@ -109,7 +109,7 @@ PropertyFrame.prototype.isShow = function() {
 
 PropertyFrame.prototype.restore = function() {
 	// this.propertyTable.children("tbody").find("td").removeClass("propertyClicked");
-	this.isAssignRelation = false;
+	this.isAssignRelation = false; //Eric. ensures that isAssignRelation stays whatever it was before
 	if(this.currentSelectedPropertyIdx != undefined) {
 		var tdElement = $(this.propertyTable.children("tbody").children("tr").eq(this.currentSelectedPropertyIdx).children("td").eq(1));
 
@@ -169,13 +169,14 @@ PropertyFrame.prototype.removeAObjFromProperty = function(pIdx, pListIdx) {
 }
 
 PropertyFrame.prototype.modifyCurrentProperty = function(value) {
+	console.log("PAAAAAA");//DEBUG
 	if(this.currentSelectedPropertyIdx != undefined) {
 		
 		var propType = this.displayAObj.type.propertyTypeList[this.currentSelectedPropertyIdx];
 		//var prop = this.displayAObj.propertyList[this.currentSelectedPropertyIdx];
 
 		if(this.isAssignRelation && value instanceof IAnaforaObj && propType.input == InputType.LIST && propType.instanceOfList.indexOf(value.type) != -1) {
-
+			console.log("POOO"); //DEBUG
 			currentAProject.updateProperty(this.displayAObj, this.currentSelectedPropertyIdx, value);
 
 			var rowElement = this.generatePropertyTableRow(propType, this.currentSelectedPropertyIdx,this.displayAObj.propertyList[this.currentSelectedPropertyIdx]);

@@ -338,7 +338,9 @@ AnnotateFrame.prototype.getMaxPositIndex = function() {
 }
 
 AnnotateFrame.prototype.updateOverlap = function(aObj) {
-	this.updateOverlapRange(aObj.span[0].start-1, aObj.span[aObj.span.length-1].end+1);
+	if(aObj instanceof Entity){
+		this.updateOverlapRange(aObj.span[0].start-1, aObj.span[aObj.span.length-1].end+1);
+	}
 }
 
 AnnotateFrame.prototype.updateOverlapRange = function(firstSpanStart, lastSpanEnd) {

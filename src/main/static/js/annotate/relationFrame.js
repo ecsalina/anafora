@@ -116,8 +116,9 @@ RelationFrame.prototype.generateRelationRow = function(relation) {
 				row.addClass("adjConflict");
 		}
 
-
-		row.bind("click", function(evt){propertyFrameList[0].isAssignRelation=false; restore();  _self.relationClick($(this) ); selectAObj(jQuery.data($(evt.currentTarget)[0], "relData").rel);});
+		//Eric: removed isAssignRelation=false. original line commented below
+		row.bind("click", function(evt){_self.relationClick($(this) ); selectAObj(jQuery.data($(evt.currentTarget)[0], "relData").rel);});
+	//	row.bind("click", function(evt){propertyFrameList[0].isAssignRelation=false; restore();  _self.relationClick($(this) ); selectAObj(jQuery.data($(evt.currentTarget)[0], "relData").rel);});
 	}
 	return row;
 }

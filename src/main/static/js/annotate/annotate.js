@@ -36,6 +36,11 @@ function onLoad() {
 	fileMenu.eq(1).bind("click", function() { saveFile(); });
 	fileMenu.eq(3).bind("click", function() { if(_setting.isAdjudication){ currentAProject.adjudicationCompleted();} else{ temporalSave();saveFile();setCompleted();} });
 
+	//Eric Added
+	$(navMenu.children("li").get(7)).click(function() { console.log("Prev"); projectSelector.clickPrevTask(projectSelector); });
+	$(navMenu.children("li").get(6)).click(function() { console.log("Next"); projectSelector.clickNextTask(projectSelector); });
+
+
 	if(_setting.projectName == "" || _setting.corpusName == "" || _setting.taskName == "" || _setting.schema === undefined)
 		projectSelector.popup();
 	else
@@ -46,53 +51,54 @@ function confirmLeave(evt) {
 	return 'Your task has not been saved yet. You sure you want to leave?';
 }
 
+//EDIT: Eric removed
 function snapSelectionToWord() {
-    var sel;
-
-    // Check for existence of window.getSelection() and that it has a
-    // modify() method. IE 9 has both selection APIs but no modify() method.
-    if (window.getSelection && (sel = window.getSelection()).modify) {
-        sel = window.getSelection();
-        if (!sel.isCollapsed) {
-
-            // Detect if selection is backwards
-            var range = document.createRange();
-            range.setStart(sel.anchorNode, sel.anchorOffset);
-            range.setEnd(sel.focusNode, sel.focusOffset);
-
-            var backwards = range.collapsed;
-            range.detach();
-
-            // modify() works on the focus of the selection
-            var endNode = sel.focusNode, endOffset = sel.focusOffset;
-            sel.collapse(sel.anchorNode, sel.anchorOffset);
-
-            var direction = [];
-            if (backwards) {
-                direction = ['backward', 'forward'];
-            } else {
-                direction = ['forward', 'backward'];
-            }
-
-            sel.modify("move", direction[0], "character");
-            sel.modify("move", direction[1], "word");
-            sel.extend(endNode, endOffset);
-            sel.modify("extend", direction[1], "character");
-            sel.modify("extend", direction[0], "word");
-
-        }
-    } else if ( (sel = document.selection) && sel.type != "Control") {
-        var textRange = sel.createRange();
-        if (textRange.text) {
-            textRange.expand("word");
-            // Move the end back to not include the word's trailing space(s),
-            // if necessary
-            while (/\s$/.test(textRange.text)) {
-                textRange.moveEnd("character", -1);
-            }
-            textRange.select();
-        }
-    }
+//    var sel;
+//
+//    // Check for existence of window.getSelection() and that it has a
+//    // modify() method. IE 9 has both selection APIs but no modify() method.
+//    if (window.getSelection && (sel = window.getSelection()).modify) {
+//        sel = window.getSelection();
+//        if (!sel.isCollapsed) {
+//
+//            // Detect if selection is backwards
+//            var range = document.createRange();
+//            range.setStart(sel.anchorNode, sel.anchorOffset);
+//            range.setEnd(sel.focusNode, sel.focusOffset);
+//
+//            var backwards = range.collapsed;
+//            range.detach();
+//
+//            // modify() works on the focus of the selection
+//            var endNode = sel.focusNode, endOffset = sel.focusOffset;
+//            sel.collapse(sel.anchorNode, sel.anchorOffset);
+//
+//            var direction = [];
+//            if (backwards) {
+//                direction = ['backward', 'forward'];
+//            } else {
+//                direction = ['forward', 'backward'];
+//            }
+//
+//            sel.modify("move", direction[0], "character");
+//            sel.modify("move", direction[1], "word");
+//            sel.extend(endNode, endOffset);
+//            sel.modify("extend", direction[1], "character");
+//            sel.modify("extend", direction[0], "word");
+//
+//        }
+//    } else if ( (sel = document.selection) && sel.type != "Control") {
+//        var textRange = sel.createRange();
+//        if (textRange.text) {
+//            textRange.expand("word");
+//            // Move the end back to not include the word's trailing space(s),
+//            // if necessary
+//            while (/\s$/.test(textRange.text)) {
+//                textRange.moveEnd("character", -1);
+//            }
+//            textRange.select();
+//        }
+//    }
 }
 
 function loadNewProject() {
@@ -304,7 +310,7 @@ function loadNewProject() {
 
 	currentAProject.annotateFrame.updateAnnotateFragement();
 	// extend entire word
-	annotatorDiv.bind("mouseup", function(evt) { if ((window.getSelection && window.getSelection().toString()!=="" ) || (document.selection && document.selection.createRange().text !== "" ) ){ if(evt.altKey || evt.ctrlKey){;}else{ snapSelectionToWord();} }});
+	annotatorDiv.bind("mouseup", function(evt) { if ((window.getSelection && window.getSelection().toString()!=="" ) || (document.selection && document.selection.createRange().text !== "" ) ){ if(evt.altKey || evt.ctrlKey){;}else{snapSelectionToWord();} }});
 	// load relation list
 	// relationFrame = new RelationFrame($("#relationFrame"));
 	relationFrame = new RelationFrame($("#aProjectWrapper table"));
@@ -466,6 +472,7 @@ function checkEntityEmptyProperty(aObj) {
 }
 
 function selectAObj(aObj) {
+	console.log(aObj.toString());//DEBUG
 	if(aObj == null) {
 		propertyFrameList[0].hide();
 		propertyFrameList[1].hide();
