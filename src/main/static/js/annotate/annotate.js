@@ -272,7 +272,10 @@ function loadNewProject() {
 		"plugins" : [ "themes", "json_data", "checkbox", "schema", "ui"]
 	})
 	.bind("check_node.jstree", schemaCheckedChange)
-	.bind("uncheck_node.jstree", schemaCheckedChange);
+	.bind("uncheck_node.jstree", schemaCheckedChange)
+	.bind("loaded.jstree", function (event, data) { //Eric: open schema tree by default
+		$(this).jstree("open_all");
+	});
 
 	registerHotkey(schema);
 
